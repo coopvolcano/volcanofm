@@ -3,18 +3,16 @@ package main
 import (
 	"time"
 	"volcanofm/vlc"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
-
 	tracks := []string{
-		"/Users/jon/Desktop/radio/000001.mp3",
-		"/Users/jon/Desktop/radio/000002.mp3",
+		"https://s3.amazonaws.com/volcano-fm/jondev/06+Only+One.flac",
 	}
 
-	vlc := volcanofm.VLC{
-		Socket: "/tmp/vlc.sock",
-	}
+	vlc := volcanofm.VLC{}
 
 	vlc.Clear()
 

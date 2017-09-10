@@ -7,7 +7,6 @@ import (
 )
 
 type VLC struct {
-	Socket string
 }
 
 func (vlc VLC) Play() {
@@ -27,7 +26,7 @@ func (vlc VLC) Enqueue(path string) {
 }
 
 func (vlc VLC) command(command string) {
-	conn, err := net.Dial("unix", "/tmp/vlc.sock")
+	conn, err := net.Dial("tcp", "192.168.1.177:4242")
 	if err != nil {
 		log.Fatal("Dial error", err)
 	}
