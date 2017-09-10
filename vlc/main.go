@@ -21,6 +21,10 @@ func (vlc VLC) Clear() {
 	vlc.command("clear")
 }
 
+func (vlc VLC) Next() {
+	vlc.command("next")
+}
+
 func (vlc VLC) Enqueue(path string) {
 	vlc.command("enqueue " + path)
 }
