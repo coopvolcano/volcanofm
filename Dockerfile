@@ -2,13 +2,14 @@ FROM golang:1.8.3
 
 ENV GOPATH /go
 
-RUN mkdir /music
+VOLUME ["/uploads"]
+VOLUME ["/data"]
+
 RUN mkdir /app
 RUN mkdir -p /go/src/volcanofm
 
-ADD . /go/src/volcanofm
-
 WORKDIR /go/src/volcanofm
+COPY . .
 
-RUN go get -v
-RUN go build -o /app/volcanofm .
+RUN go-wrapper download
+RUN go-wrapper install

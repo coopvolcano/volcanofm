@@ -9,10 +9,6 @@ import (
 
 	"github.com/dhowden/tag"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-
 	_ "github.com/lib/pq"
 )
 
@@ -41,14 +37,10 @@ import (
 */
 
 func main() {
-	musicFiles := []string{
-		"01.flac",
-		"02.flac",
-	}
+	musicFiles, _ := filepath.Glob("/uploads/**/*.flac")
 	tracks := []string{}
 
-	for _, sub := range musicFiles {
-		path := filepath.Join("C:\\", "Users", "binarycleric", "Desktop", sub)
+	for _, path := range musicFiles {
 		file, err := os.Open(path)
 		defer file.Close()
 
@@ -58,29 +50,12 @@ func main() {
 
 		metadata, err := tag.ReadFrom(file)
 
-		fmt.Println(metadata.Album())
-		fmt.Println(metadata.Title())
-		fmt.Println(metadata.Artist())
+		fmt.Println(metadata.Album() + "***" + metadata.Title() + "***" + metadata.Artist())
 
-		s3Key := "jondev/" + sub
-		sess, err := session.NewSession(&aws.Config{Region: aws.String("us-east-1")})
-		uploader := s3manager.NewUploader(sess)
-		response, err2 := uploader.Upload(&s3manager.UploadInput{
-			Bucket: aws.String("volcano-fm"),
-			Key:    aws.String(s3Key),
-			Body:   file,
-		})
-
-		if err2 != nil {
-			fmt.Println(err2)
-		}
-
-		fmt.Println(response)
-
+		// TODO: This needs to be a database ID or something.
+		sub := "00001"
 		tracks = append(tracks, "https://s3.amazonaws.com/volcano-fm/jondev/"+sub)
 	}
-
-	fmt.Println(tracks)
 
 	vlc := volcanofm.VLC{}
 	defer vlc.Stop()

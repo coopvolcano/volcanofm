@@ -1,12 +1,15 @@
-version: "2"
+version: "3"
 
 services:
+  vlc:
+    working_dir: /
+    build:
+      context: .
+      dockerfile: Dockerfile-vlc
   app:
     build:
       context: .
-      dockerfile: Dockerfile
     volumes:
-      - c:\Users\binarycleric\Music\Collection\FLAC:/music
-      - c:\Users\binarycleric\Code\go\src:/go/src
+      - c:\Users\binarycleric\Music\Collection\FLAC:/uploads:ro
     working_dir: /app
     command: "volcanofm"

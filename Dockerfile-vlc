@@ -1,0 +1,9 @@
+FROM ubuntu:zesty
+
+RUN apt update
+RUN apt install vlc -y
+RUN useradd -ms /bin/bash vlc
+
+VOLUME ["/data"]
+
+USER "vlc"
