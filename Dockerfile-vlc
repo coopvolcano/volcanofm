@@ -1,9 +1,15 @@
 FROM ubuntu:zesty
 
-RUN apt update
-RUN apt install vlc -y
+RUN apt-get update
+RUN apt-get install vlc -y
 RUN useradd -ms /bin/bash vlc
 
 VOLUME ["/data"]
 
 USER "vlc"
+
+EXPOSE 4242
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/vlc"]
+CMD ["-I", "oldrc", "--rc-fake-tty", "--rc-host=0.0.0.0:4242", "-vvv", "--sout", "#standard{access=http, mux=ogg, port=8080}", "--sout-keep"]

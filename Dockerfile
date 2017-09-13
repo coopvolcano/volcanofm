@@ -9,6 +9,7 @@ RUN mkdir /app
 RUN mkdir -p /go/src/volcanofm
 
 WORKDIR /go/src/volcanofm
+
 COPY . .
 
 RUN go-wrapper download
