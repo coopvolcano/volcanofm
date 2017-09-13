@@ -25,12 +25,16 @@ func (vlc VLC) Next() {
 	vlc.command("next")
 }
 
+func (vlc VLC) RandomOn() {
+	vlc.command("random on")
+}
+
 func (vlc VLC) Enqueue(path string) {
 	vlc.command("enqueue " + path)
 }
 
 func (vlc VLC) command(command string) {
-	conn, err := net.Dial("tcp", "192.168.1.177:4242")
+	conn, err := net.Dial("tcp", "vlc:4242")
 	if err != nil {
 		log.Fatal("Dial error", err)
 	}
@@ -42,5 +46,5 @@ func (vlc VLC) command(command string) {
 	}
 
 	log.Print("Client sent:", command)
-	time.Sleep(2 * time.Second)
+	time.Sleep(250 * time.Millisecond)
 }

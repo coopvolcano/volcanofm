@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:9.6-alpine
     volumes:
-      - c:\Data\Postgres\volcanofm:/var/lib/postgresql/data:rw
+      - c:\Data\Projects\volcanofm\postgresql:/var/lib/postgresql/data:rw
   vlc:
     build:
       context: .
@@ -13,13 +13,14 @@ services:
       - 8080:8080
       - 4242:4242
     volumes:
-      - c:\Users\binarycleric\Desktop\radio:/data:ro
+      - c:\Data\Projects\volcanofm\data:/data:ro
   app:
     build: .
     links:
-      - db
+      # - db
       - vlc
     volumes:
       - c:\Users\binarycleric\Music\Collection\FLAC:/uploads:ro
+      - c:\Data\Projects\volcanofm\data:/data:rw
     working_dir: /app
     command: "volcanofm"
